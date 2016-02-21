@@ -1,5 +1,6 @@
-var koa = require('koa');
-var app = koa();
+import koa from 'koa';
+
+const app = koa();
 
 app.use(function *(){
   this.body = 'Hello World';
