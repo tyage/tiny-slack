@@ -1,15 +1,10 @@
 import React from 'react';
-import SidebarHeader from './SidebarHeader';
+import TeamSidebarHeader from '../containers/TeamSidebarHeader'
 
-export default class Sidebar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <div>
-        <SidebarHeader />
-      </div>
-    );
-  }
-}
+const Sidebar = () => (
+  <div>
+    <TeamSidebarHeader />
+  </div>
+)
+
+export default Sidebar
