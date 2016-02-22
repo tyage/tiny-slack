@@ -1,14 +1,14 @@
 import React from 'react';
-import Sidebar from './Sidebar';
+import SidebarHeader from './SidebarHeader';
 
-export default class App extends React.Component {
+export default class Sidebar extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
     return (
       <div>
-        <Sidebar />
+        <SidebarHeader />
       </div>
     );
   }
