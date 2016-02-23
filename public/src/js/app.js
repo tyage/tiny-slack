@@ -1,17 +1,30 @@
+import $ from 'jquery'
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import tinySlackApp from './reducers'
-import $ from 'jquery'
-import App from './components/App'
+import { createStore, combineReducers } from 'redux'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
-const store = createStore(tinySlackApp)
+import * as reducers from './reducers'
+import { App, Home, NewChannel } from './components'
+
+const reducer = combineReducers({
+  ...reducers,
+  routing: routerReducer
+})
+const store = createStore(reducer)
+const history = syncHistoryWithStore(browserHistory, store)
 
 $(() => {
   render(
     <Provider store={ store }>
-      <App />
+      <Router history={ history }>
+        <Route path="/" component={ App }>
+          <IndexRoute component={ Home }/>
+          <Route path="channels/new" component={ NewChannel }/>
+        </Route>
+      </Router>
     </Provider>,
     $('#app-container').get(0)
   )

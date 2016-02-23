@@ -1,9 +1,8 @@
 import React from 'react';
-import Sidebar from './Sidebar';
 
-const App = () => (
+const App = ({ children }) => (
   <div className="app">
-    <Sidebar />
+    { children }
   </div>
 )
 
