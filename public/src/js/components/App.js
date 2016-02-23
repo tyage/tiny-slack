@@ -2,7 +2,7 @@ import React from 'react';
 import Sidebar from './Sidebar';
 
 const App = () => (
-  <div>
+  <div className="app">
     <Sidebar />
   </div>
 )

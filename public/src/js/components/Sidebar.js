@@ -2,7 +2,7 @@ import React from 'react';
 import TeamSidebarHeader from '../containers/TeamSidebarHeader'
 
 const Sidebar = () => (
-  <div>
+  <div className="sidebar">
     <TeamSidebarHeader />
   </div>
 )

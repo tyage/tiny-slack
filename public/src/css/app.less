@@ -1,0 +1,31 @@
+@import "./lib/clearfix";
+@import "./sidebar";
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-size: 15px;
+}
+p {
+  margin: 0;
+}
+ul {
+  padding: 0;
+  margin: 0;
+}
+a {
+  color: #2a80b9;
+  text-decoration: none;
+  &:active, &:hover, &:focus {
+    color: #439fe0;
+    text-decoration: underline;
+  }
+}
+
+.app {
+  .clearfix;
+  height: 100%;
+}
