@@ -13,6 +13,6 @@ $(() => {
     <Provider store={ store }>
       <App />
     </Provider>,
-    $('body').get(0)
+    $('#app-container').get(0)
   )
 })
