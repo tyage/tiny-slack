@@ -1,5 +1,7 @@
 @import "./lib/clearfix";
 @import "./components/home";
+@import "./components/popup-page";
+@import './form';
 
 html, body, #app-container {
   height: 100%;
@@ -8,6 +10,7 @@ html, body, #app-container {
 body {
   margin: 0;
   font-size: 15px;
+  color: #555459;
 }
 p {
   margin: 0;
@@ -25,7 +28,11 @@ a {
   }
 }
 
-.app {
-  .clearfix;
-  height: 100%;
+#app-container {
+  .app {
+    height: 100%;
+    .page {
+      height: 100%;
+    }
+  }
 }
