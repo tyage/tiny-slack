@@ -3,18 +3,24 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { addChannel } from '../actions/channel'
 
-let CreateNewChannel = ({ dispatch }) => {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSubmit: (channelName) => {
+      dispatch(addChannel(channelName))
+      dispatch(push('/'))
+    }
+  }
+}
+
+let CreateNewChannel = ({ onSubmit }) => {
   let channelName
 
-  const onSubmit = (e) => {
-    e.preventDefault()
-    dispatch(addChannel(channelName.value))
-    channelName.value = ''
-    dispatch(push('/'))
-  }
-
   return (
-    <form onSubmit={ onSubmit }>
+    <form onSubmit={ (e) => {
+      e.preventDefault()
+      onSubmit(channelName.value)
+      channelName.value = ''
+    } }>
       <div className="form-group">
         <label className="form-label" htmlFor="channel-name">Channel name</label>
         <div className="form-input">
@@ -30,6 +36,9 @@ let CreateNewChannel = ({ dispatch }) => {
     </form>
   )
 }
-CreateNewChannel = connect()(CreateNewChannel)
+CreateNewChannel = connect(
+  null,
+  mapDispatchToProps
+)(CreateNewChannel)
 
 export default CreateNewChannel

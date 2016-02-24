@@ -6,8 +6,8 @@ import ChannelList from '../containers/ChannelList'
 const Sidebar = () => (
   <div className="sidebar">
     <TeamSidebarHeader />
-    <Link to="/channels/new">Create New Channel</Link>
     <div className="channels-section">
+      <Link to="/channels/new">Create New Channel</Link>
       <ChannelList />
     </div>
   </div>

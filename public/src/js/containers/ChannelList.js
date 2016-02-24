@@ -1,12 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import Channel from '../components/Channel'
+import { updateCurrentChannel } from '../actions/channel'
 
-let ChannelList = ({ dispatch }) => {
+const mapStateToProps = (state) => {
+  return {
+    channels: state.channels,
+    currentChannel: state.currentChannel
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onChannelClick: (channel) => {
+      dispatch(updateCurrentChannel(channel))
+    }
+  }
+}
+
+let ChannelList = ({ dispatch, channels, onChannelClick, currentChannel }) => {
   return (
-    <div>
+    <div className="channel-list">
+      { channels.map((channel) => (
+        <Channel
+          channel={ channel }
+          onClick={ () => onChannelClick(channel) }
+          isSelected={ channel === currentChannel }
+        />
+      )) }
     </div>
   )
 }
-ChannelList = connect()(ChannelList)
+ChannelList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChannelList)
 
 export default ChannelList

@@ -4,3 +4,9 @@ export const addChannel = (name) => {
     name
   }
 }
+export const updateCurrentChannel = (channel) => {
+  return {
+    type: 'UPDATE_CURRENT_CHANNEL',
+    channel
+  }
+}

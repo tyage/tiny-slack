@@ -4,10 +4,14 @@
   @sidebar-header-height: 60px;
 
   width: @sidebar-width;
-  height: calc(~'100% - @{sidebar-padding-bottom}');
+  height: 100%;
   float: left;
   background: #4d394b;
   padding: 0 0 @sidebar-padding-bottom 0;
+  color: #fff;
+  a {
+    color: #fff;
+  }
   .sidebar-header {
     height: @sidebar-header-height;
     position: relative;
@@ -17,25 +21,16 @@
     .team-info {
       cursor: pointer;
       position: relative;
-      color: #fff;
       font-size: 1.125rem;
       padding: 0 1rem;
       line-height: @sidebar-header-height;
-      .configure-toggler {
-        position: absolute;
-        right: 1.25rem;
-        top: 0;
-        &:before {
-          content: '>';
-        }
-      }
     }
   }
-  .slack-channels {
+  .channels-section {
     color: #ab9ba9;
     overflow: auto;
     height: calc(~'100% - @{sidebar-header-height}');
-    li {
+    .channel {
       text-shadow: 0 1px 1px rgba(0,0,0,0.25);
       cursor: pointer;
       &:hover {
