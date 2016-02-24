@@ -2,18 +2,22 @@ import $ from 'jquery'
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import { routerMiddleware, syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import * as reducers from './reducers'
 import { App, Home, NewChannel } from './components'
 
+const middleware = routerMiddleware(browserHistory)
 const reducer = combineReducers({
   ...reducers,
-  routing: routerReducer
+  routing: routerReducer,
 })
-const store = createStore(reducer)
+const store = createStore(
+  reducer,
+  applyMiddleware(middleware)
+)
 const history = syncHistoryWithStore(browserHistory, store)
 
 $(() => {
