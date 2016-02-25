@@ -1,1 +1,18 @@
+@import "../lib/clearfix";
 @import "./sidebar";
+
+.home {
+  @sidebar-width: 220px;
+
+  .clearfix;
+  .sidebar-section {
+    height: 100%;
+    width: @sidebar-width;
+    float: left;
+  }
+  .messages-section {
+    height: 100%;
+    width: calc(~'100% - @{sidebar-width}');
+    float: left;
+  }
+}

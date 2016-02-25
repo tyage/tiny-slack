@@ -1,5 +1,8 @@
+let nextChannelId = 0
+
 const createNewChannel = (name) => {
   return {
+    id: ++nextChannelId,
     name
   }
 }
