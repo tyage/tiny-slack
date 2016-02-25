@@ -1,11 +1,15 @@
+let nextMessageId = 0
+
 const channelMessages = (state = [], action) => {
   switch (action.type) {
     case 'POST_MESSAGE':
       return [
         ...state,
         {
+          id: ++nextMessageId,
           username: action.username,
-          text: action.text
+          text: action.text,
+          createdAt: new Date()
         }
       ]
     default:

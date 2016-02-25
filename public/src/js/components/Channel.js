@@ -8,7 +8,7 @@ const Channel = ({ channel, onClick, isSelected }) => {
 
   return (
     <div className={ classNames.join(' ') } onClick={ onClick }>
-      <p>{ channel.name }</p>
+      <p>#{ channel.name }</p>
     </div>
   )
 }

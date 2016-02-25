@@ -7,6 +7,7 @@ const MessageList = ({ messages }) => {
       { messages.map((message) => (
         <Message
           message={ message }
+          key={ message.id }
         />
       )) }
     </div>
