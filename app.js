@@ -5,6 +5,7 @@ import Router from 'koa-router'
 import parse from 'co-body'
 import json from 'koa-json'
 
+// TODO: save in storage
 const channels = []
 let nextMessageId = 0
 const messages = {}
@@ -20,6 +21,7 @@ apiRouter
       name
     }
 
+    // TODO: check if channel is unique
     channels.push(channel)
 
     this.body = {

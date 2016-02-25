@@ -23,6 +23,7 @@ export const addAndMoveToChannel = (name) => {
     let newChannel
     return createChannel(name)
       .then(({ channel }) => {
+        // TODO: handle error
         newChannel = channel
         return dispatch(updateChannels())
       })
