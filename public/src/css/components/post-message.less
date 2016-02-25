@@ -1,0 +1,20 @@
+.post-message-form {
+  @username-form-width: 120px;
+  @submit-form-width: 100px;
+  padding: 20px;
+  .username-form, .message-form, .submit-form {
+    display: inline-block;
+    height: 50px;
+  }
+  .username-form {
+    width: @username-form-width;
+    padding: 0 10px 0 0;
+  }
+  .message-form {
+    width: calc(~'100% - @{username-form-width} - @{submit-form-width}');
+    padding: 0 10px 0 0;
+  }
+  .submit-form {
+    width: @submit-form-width;
+  }
+}
