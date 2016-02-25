@@ -8,6 +8,9 @@
   color: #fff;
   a {
     color: #fff;
+    &:hover {
+      color: #fff;
+    }
   }
   .sidebar-header {
     height: @sidebar-header-height;
@@ -27,6 +30,9 @@
     color: #ab9ba9;
     overflow: auto;
     height: calc(~'100% - @{sidebar-header-height}');
+    .create-channel-link {
+      padding: 10px;
+    }
     .channel {
       text-shadow: 0 1px 1px rgba(0,0,0,0.25);
       cursor: pointer;

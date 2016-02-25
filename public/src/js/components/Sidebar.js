@@ -7,7 +7,9 @@ const Sidebar = () => (
   <div className="sidebar">
     <TeamSidebarHeader />
     <div className="channels-section">
-      <Link to="/channels/new">Create New Channel</Link>
+      <div className="create-channel-link">
+        <Link to="/channels/new">Create New Channel</Link>
+      </div>
       <ChannelList />
     </div>
   </div>
