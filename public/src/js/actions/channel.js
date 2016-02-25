@@ -19,11 +19,5 @@ export const addAndMoveToChannel = (name) => {
   }
 }
 export const updateCurrentChannel = (channel) => {
-  return (dispatch, getState) => {
-    dispatch({
-      type: 'UPDATE_CURRENT_CHANNEL',
-      channel
-    })
-    return dispatch(push(`/${channel.id}`))
-  }
+  return push(`/${channel.id}`)
 }

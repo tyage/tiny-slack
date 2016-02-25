@@ -4,8 +4,8 @@ import { postMessage } from '../actions/message'
 import MessageList from '../components/MessageList'
 import PostMessage from '../components/PostMessage'
 
-const mapStateToProps = (state, ownProps) => {
-  const currentChannelId = ownProps.currentChannel ? ownProps.currentChannel.id : null
+const mapStateToProps = (state, { currentChannel }) => {
+  const currentChannelId = currentChannel ? currentChannel.id : null
   const currentChannelMessages = currentChannelId ? state.messages[currentChannelId] : []
   return {
     messages: currentChannelMessages || []

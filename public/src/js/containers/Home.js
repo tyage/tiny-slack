@@ -2,14 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { updateCurrentChannel } from '../actions/channel'
-import Sidebar from './Sidebar'
-import MessagesSection from '../containers/MessagesSection'
+import Sidebar from '../components/Sidebar'
+import MessagesSection from './MessagesSection'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, { params }) => {
   const channels = state.channels
   let currentChannel = state.currentChannel
 
-  const channelId = ownProps.params.channelId
+  const channelId = params.channelId
   if (channelId !== undefined && (!currentChannel || currentChannel.id !== channelId)) {
     const channel = channels.find(channel => channel.id === channelId)
     if (channel) {

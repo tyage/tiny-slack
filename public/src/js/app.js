@@ -9,7 +9,8 @@ import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 
 import * as reducers from './reducers'
-import { App, Home, NewChannel } from './components'
+import { App, NewChannel } from './components'
+import { Home } from './containers'
 
 const middleware = routerMiddleware(browserHistory)
 const reducer = combineReducers({
