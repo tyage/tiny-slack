@@ -10,7 +10,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-let CreateNewChannel = ({ onSubmit }) => {
+const CreateNewChannel = ({ onSubmit }) => {
   let channelName
 
   return (
@@ -34,9 +34,7 @@ let CreateNewChannel = ({ onSubmit }) => {
     </form>
   )
 }
-CreateNewChannel = connect(
+export default connect(
   null,
   mapDispatchToProps
 )(CreateNewChannel)
-
-export default CreateNewChannel

@@ -38,9 +38,7 @@ const MessagesSection = ({ messages, currentChannel, onPostMessage }) => {
   }
 }
 
-const CurrentChannelMessages = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(MessagesSection)
-
-export default CurrentChannelMessages

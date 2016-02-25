@@ -7,8 +7,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-const TeamSidebarHeader = connect(
+export default connect(
   mapStateToProps
 )(SidebarHeader)
-
-export default TeamSidebarHeader

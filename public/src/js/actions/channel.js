@@ -1,23 +1,47 @@
 import { push } from 'react-router-redux'
+import fetch from 'isomorphic-fetch'
 
-let nextId = 0
 const createChannel = (name) => {
-  return {
-    id: (++nextId).toString(),
-    name
-  }
+  return fetch('/api/channels/new', {
+      method: 'post',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        name
+      })
+    })
+    .then(res => res.json())
+}
+const fetchChannels = () => {
+  return fetch('/api/channels')
+    .then(res => res.json())
 }
 
 export const addAndMoveToChannel = (name) => {
-  return (dispatch, getState) => {
-    const channel = createChannel(name)
-    dispatch({
-      type: 'ADD_CHANNEL',
-      ...channel
-    })
-    return dispatch(push(`/${channel.id}`))
+  return (dispatch) => {
+    let newChannel
+    return createChannel(name)
+      .then(({ channel }) => {
+        newChannel = channel
+        return dispatch(updateChannels())
+      })
+      .then(() => {
+        return dispatch(push(`/${newChannel.id}`))
+      })
   }
 }
 export const updateCurrentChannel = (channel) => {
   return push(`/${channel.id}`)
+}
+export const updateChannels = () => {
+  return (dispatch) => {
+    return fetchChannels()
+      .then(({ channels }) => {
+        return dispatch({
+          type: 'UPDATE_CHANNELS',
+          channels
+        })
+      })
+  }
 }

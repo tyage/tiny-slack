@@ -1,17 +1,7 @@
-const createNewChannel = (id, name) => {
-  return {
-    id,
-    name
-  }
-}
-
 const channels = (state = [], action) => {
   switch (action.type) {
-    case 'ADD_CHANNEL':
-      return [
-        ...state,
-        createNewChannel(action.id, action.name)
-      ]
+    case 'UPDATE_CHANNELS':
+      return action.channels
     default:
       return state
   }

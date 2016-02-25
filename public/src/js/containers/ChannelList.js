@@ -12,7 +12,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-let ChannelList = ({ dispatch, channels, onChannelClick, currentChannel }) => {
+const ChannelList = ({ dispatch, channels, onChannelClick, currentChannel }) => {
   return (
     <div className="channel-list">
       { channels.map((channel) => (
@@ -26,9 +26,8 @@ let ChannelList = ({ dispatch, channels, onChannelClick, currentChannel }) => {
     </div>
   )
 }
-ChannelList = connect(
+
+export default connect(
   null,
   mapDispatchToProps
 )(ChannelList)
-
-export default ChannelList
