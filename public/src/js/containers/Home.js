@@ -15,20 +15,31 @@ const mapStateToProps = (state, { params }) => {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    doUpdateChannels: () => {
+      dispatch(updateChannels())
+    },
+    initCurrentChannel: (channels, currentChannel) => {
+      if (!currentChannel && channels.length > 0) {
+        const nextChannel = channels[0]
+        dispatch(updateCurrentChannel(nextChannel))
+      }
+    }
+  }
+}
+
 class Home extends Component {
   constructor(props) {
     super(props)
   }
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(updateChannels())
+    const { doUpdateChannels } = this.props
+    doUpdateChannels()
   }
   componentWillReceiveProps(nextProps) {
-    const { currentChannel, channels, dispatch } = nextProps
-    if (!currentChannel && channels.length > 0) {
-      const nextChannel = channels[0]
-      dispatch(updateCurrentChannel(nextChannel))
-    }
+    const { channels, currentChannel, initCurrentChannel } = nextProps
+    initCurrentChannel(channels, currentChannel)
   }
   render() {
     const { channels, currentChannel } = this.props
@@ -45,9 +56,11 @@ class Home extends Component {
 
 Home.propTypes = {
   channels: PropTypes.array.isRequired,
-  dispatch: PropTypes.func.isRequired
+  doUpdateChannels: PropTypes.func.isRequired,
+  initCurrentChannel: PropTypes.func.isRequired
 }
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Home)

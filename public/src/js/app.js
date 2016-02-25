@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
@@ -23,17 +22,15 @@ const store = createStore(
 )
 const history = syncHistoryWithStore(browserHistory, store)
 
-$(() => {
-  render(
-    <Provider store={ store }>
-      <Router history={ history }>
-        <Route path="/" component={ App }>
-          <IndexRoute component={ Home }/>
-          <Route path="channels/new" component={ NewChannel }/>
-          <Route path=":channelId" component={ Home }/>
-        </Route>
-      </Router>
-    </Provider>,
-    $('#app-container').get(0)
-  )
-})
+render(
+  <Provider store={ store }>
+    <Router history={ history }>
+      <Route path="/" component={ App }>
+        <IndexRoute component={ Home }/>
+        <Route path="channels/new" component={ NewChannel }/>
+        <Route path=":channelId" component={ Home }/>
+      </Route>
+    </Router>
+  </Provider>,
+  document.getElementById('app-container')
+)

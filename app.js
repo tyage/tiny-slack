@@ -6,19 +6,18 @@ import parse from 'co-body'
 import json from 'koa-json'
 
 const channels = []
+let nextMessageId = 0
+const messages = {}
 
 const apiRouter = Router({
   prefix: '/api'
 })
 apiRouter
-  .get('/', function *() {
-    this.body = 'Hello World'
-  })
-  .post('/channels/new', function *(next) {
-    const post = yield parse(this)
+  .post('/channels/new', function *() {
+    const { name } = yield parse(this)
     const channel = {
-      id: post.name,
-      name: post.name
+      id: name,
+      name
     }
 
     channels.push(channel)
@@ -27,9 +26,36 @@ apiRouter
       channel
     }
   })
-  .get('/channels', function *(next) {
+  .get('/channels', function *() {
     this.body = {
       channels
+    }
+  })
+  .post('/messages/:channelId/new', function *() {
+    const channelId = this.params.channelId
+    const { username, text } = yield parse(this)
+    const message = {
+      id: ++nextMessageId,
+      channelId,
+      username,
+      text,
+      createdAt: new Date()
+    }
+
+    if (!messages[channelId]) {
+      messages[channelId] = []
+    }
+    messages[channelId].push(message)
+
+    this.body = {
+      message
+    }
+  })
+  .get('/messages/:channelId', function *() {
+    const channelId = this.params.channelId
+
+    this.body = {
+      messages: messages[channelId] || []
     }
   })
 
