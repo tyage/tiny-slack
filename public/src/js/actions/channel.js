@@ -1,12 +1,29 @@
-export const addChannel = (name) => {
+import { push } from 'react-router-redux'
+
+let nextId = 0
+const createChannel = (name) => {
   return {
-    type: 'ADD_CHANNEL',
+    id: (++nextId).toString(),
     name
   }
 }
+
+export const addAndMoveToChannel = (name) => {
+  return (dispatch, getState) => {
+    const channel = createChannel(name)
+    dispatch({
+      type: 'ADD_CHANNEL',
+      ...channel
+    })
+    return dispatch(push(`/${channel.id}`))
+  }
+}
 export const updateCurrentChannel = (channel) => {
-  return {
-    type: 'UPDATE_CURRENT_CHANNEL',
-    channel
+  return (dispatch, getState) => {
+    dispatch({
+      type: 'UPDATE_CURRENT_CHANNEL',
+      channel
+    })
+    return dispatch(push(`/${channel.id}`))
   }
 }

@@ -5,6 +5,8 @@ import { Provider } from 'react-redux'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { routerMiddleware, syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import thunkMiddleware from 'redux-thunk'
+import createLogger from 'redux-logger'
 
 import * as reducers from './reducers'
 import { App, Home, NewChannel } from './components'
@@ -16,7 +18,7 @@ const reducer = combineReducers({
 })
 const store = createStore(
   reducer,
-  applyMiddleware(middleware)
+  applyMiddleware(middleware, thunkMiddleware, createLogger())
 )
 const history = syncHistoryWithStore(browserHistory, store)
 
@@ -27,6 +29,7 @@ $(() => {
         <Route path="/" component={ App }>
           <IndexRoute component={ Home }/>
           <Route path="channels/new" component={ NewChannel }/>
+          <Route path=":channelId" component={ Home }/>
         </Route>
       </Router>
     </Provider>,

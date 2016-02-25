@@ -1,15 +1,13 @@
-let nextMessageId = 0
-
 const channelMessages = (state = [], action) => {
   switch (action.type) {
     case 'POST_MESSAGE':
       return [
         ...state,
         {
-          id: ++nextMessageId,
+          id: action.id,
           username: action.username,
           text: action.text,
-          createdAt: new Date()
+          createdAt: action.createdAt
         }
       ]
     default:
@@ -20,10 +18,13 @@ const channelMessages = (state = [], action) => {
 const messages = (state = {}, action) => {
   switch (action.type) {
     case 'POST_MESSAGE':
-      const channelId = action.currentChannel.id
-      return Object.assign({}, state, {
-        [channelId]: channelMessages(state[channelId], action)
-      })
+      if (action.currentChannel && action.username && action.text) {
+        const channelId = action.currentChannel.id
+        return Object.assign({}, state, {
+          [channelId]: channelMessages(state[channelId], action)
+        })
+      }
+      return state
     default:
       return state
   }

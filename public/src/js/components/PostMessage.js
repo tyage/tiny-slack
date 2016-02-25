@@ -1,28 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { postMessage } from '../actions/message'
 
-const mapStateToProps = (state) => {
-  return {
-    currentChannel: state.currentChannel
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onSubmit: (currentChannel, username, messageText) => {
-      dispatch(postMessage(currentChannel, username, messageText))
-    }
-  }
-}
-
-let PostMessage = ({ currentChannel, onSubmit }) => {
+const PostMessage = ({ onSubmit }) => {
   let messageText, username
 
   return (
     <form onSubmit={ (e) => {
       e.preventDefault()
-      onSubmit(currentChannel, username.value, messageText.value)
+      onSubmit(username.value, messageText.value)
       messageText.value = ''
     } } className="post-message-form">
       <div className="username-form form-input">
@@ -39,9 +23,5 @@ let PostMessage = ({ currentChannel, onSubmit }) => {
     </form>
   )
 }
-PostMessage = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PostMessage)
 
 export default PostMessage

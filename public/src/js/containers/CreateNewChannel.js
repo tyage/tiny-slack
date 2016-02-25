@@ -1,13 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
-import { addChannel } from '../actions/channel'
+import { addAndMoveToChannel } from '../actions/channel'
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: (channelName) => {
-      dispatch(addChannel(channelName))
-      dispatch(push('/'))
+      dispatch(addAndMoveToChannel(channelName))
     }
   }
 }

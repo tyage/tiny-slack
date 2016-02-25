@@ -1,14 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
+
 import Channel from '../components/Channel'
 import { updateCurrentChannel } from '../actions/channel'
-
-const mapStateToProps = (state) => {
-  return {
-    channels: state.channels,
-    currentChannel: state.currentChannel
-  }
-}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -33,7 +27,7 @@ let ChannelList = ({ dispatch, channels, onChannelClick, currentChannel }) => {
   )
 }
 ChannelList = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ChannelList)
 

@@ -1,8 +1,6 @@
-let nextChannelId = 0
-
-const createNewChannel = (name) => {
+const createNewChannel = (id, name) => {
   return {
-    id: ++nextChannelId,
+    id,
     name
   }
 }
@@ -12,7 +10,7 @@ const channels = (state = [], action) => {
     case 'ADD_CHANNEL':
       return [
         ...state,
-        createNewChannel(action.name)
+        createNewChannel(action.id, action.name)
       ]
     default:
       return state
