@@ -7,7 +7,7 @@ import MessagesSection from './MessagesSection'
 
 const mapStateToProps = (state, { params }) => {
   const channels = state.channels
-  const currentChannel = channels.find(channel => channel.id === params.channelId)
+  const currentChannel = channels.find(channel => channel.name === params.channelName)
 
   return {
     channels,

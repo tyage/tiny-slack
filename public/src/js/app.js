@@ -28,7 +28,7 @@ render(
       <Route path="/" component={ App }>
         <IndexRoute component={ Home }/>
         <Route path="channels/new" component={ NewChannel }/>
-        <Route path=":channelId" component={ Home }/>
+        <Route path=":channelName" component={ Home }/>
       </Route>
     </Router>
   </Provider>,

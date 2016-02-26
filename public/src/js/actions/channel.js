@@ -28,12 +28,12 @@ export const addAndMoveToChannel = (name) => {
         return dispatch(updateChannels())
       })
       .then(() => {
-        return dispatch(push(`/${newChannel.id}`))
+        return dispatch(push(`/${newChannel.name}`))
       })
   }
 }
 export const updateCurrentChannel = (channel) => {
-  return push(`/${channel.id}`)
+  return push(`/${channel.name}`)
 }
 export const updateChannels = () => {
   return (dispatch) => {

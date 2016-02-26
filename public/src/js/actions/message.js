@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 
 const createMessage = (channel, username, text) => {
-  return fetch(`/api/messages/${channel.id}/new`, {
+  return fetch(`/api/messages/${channel.name}/new`, {
       method: 'post',
       headers: {
         'content-type': 'application/json'
@@ -14,7 +14,7 @@ const createMessage = (channel, username, text) => {
     .then(res => res.json())
 }
 const fetchMessages = (channel) => {
-  return fetch(`/api/messages/${channel.id}`)
+  return fetch(`/api/messages/${channel.name}`)
     .then(res => res.json())
 }
 
