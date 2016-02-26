@@ -21,11 +21,6 @@ class CreateNewChannel extends Component {
   onSubmit(e) {
     e.preventDefault()
     this.props.onSubmit(this.refs.channelName.value)
-      .then(() => {
-        this.setState({
-          error: null
-        })
-      })
       .catch((error) => {
         this.setState({
           error: error
