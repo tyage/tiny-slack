@@ -30,6 +30,18 @@ class MessagesSection extends Component {
   componentDidMount() {
     const { currentChannel, doUpdateMessages } = this.props
     doUpdateMessages(currentChannel)
+
+    // TODO: use websocket instead
+    const timer = setInterval(() => {
+      const { currentChannel, doUpdateMessages } = this.props
+      doUpdateMessages(currentChannel)
+    }, 1000)
+    this.setState({
+      timer
+    })
+  }
+  componentWillUnmount() {
+    clearInterval(this.state.timer)
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentChannel !== this.props.currentChannel) {
