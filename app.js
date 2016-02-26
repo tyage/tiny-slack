@@ -21,11 +21,17 @@ apiRouter
       name
     }
 
-    // TODO: check if channel is unique
-    yield channels.insert(channel)
-
-    this.body = {
-      channel
+    // check if channel is unique
+    const existChannel = yield channels.find({ name })
+    if (existChannel.length === 0) {
+      yield channels.insert(channel)
+      this.body = {
+        channel
+      }
+    } else {
+      this.body = {
+        error: `Channel ${name} is already exists`
+      }
     }
   })
   .get('/channels', function *() {

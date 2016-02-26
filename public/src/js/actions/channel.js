@@ -20,15 +20,14 @@ const fetchChannels = () => {
 
 export const addAndMoveToChannel = (name) => {
   return (dispatch) => {
-    let newChannel
     return createChannel(name)
-      .then(({ channel }) => {
-        // TODO: handle error
-        newChannel = channel
-        return dispatch(updateChannels())
-      })
-      .then(() => {
-        return dispatch(push(`/${newChannel.name}`))
+      .then((res) => {
+        if (res.error) {
+          return Promise.reject(res.error)
+        } else {
+          dispatch(updateChannels())
+          return dispatch(push(`/${res.channel.name}`))
+        }
       })
   }
 }

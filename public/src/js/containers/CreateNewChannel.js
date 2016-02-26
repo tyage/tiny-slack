@@ -1,39 +1,59 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { addAndMoveToChannel } from '../actions/channel'
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: (channelName) => {
-      dispatch(addAndMoveToChannel(channelName))
+      return dispatch(addAndMoveToChannel(channelName))
     }
   }
 }
 
-const CreateNewChannel = ({ onSubmit }) => {
-  let channelName
+class CreateNewChannel extends Component {
+  constructor(props) {
+    super(props)
 
-  return (
-    <form onSubmit={ (e) => {
-      e.preventDefault()
-      onSubmit(channelName.value)
-      channelName.value = ''
-    } }>
-      <div className="form-group">
-        <label className="form-label" htmlFor="channel-name">Channel name</label>
-        <div className="form-input">
-          <input id="channel-name" type="text" placeholder="Channel name"
-            ref={ node => channelName = node } />
+    this.state = {
+      error: null
+    }
+  }
+  onSubmit(e) {
+    e.preventDefault()
+    this.props.onSubmit(this.refs.channelName.value)
+      .then(() => {
+        this.setState({
+          error: null
+        })
+      })
+      .catch((error) => {
+        this.setState({
+          error: error
+        })
+      })
+    this.refs.channelName.value = ''
+  }
+  render() {
+    return (
+      <form onSubmit={ this.onSubmit.bind(this) }>
+        <div className="form-error">{ this.state.error }</div>
+        <div className="form-group">
+          <label className="form-label" htmlFor="channel-name">Channel name</label>
+          <div className="form-input">
+            <input id="channel-name" type="text" placeholder="Channel name"
+              ref="channelName" />
+          </div>
         </div>
-      </div>
-      <div className="form-group">
-        <div className="form-input">
-          <input type="submit" className="primary-button" value="Create" />
+        <div className="form-group">
+          <div className="form-input">
+            <input type="submit" className="primary-button" value="Create" />
+          </div>
         </div>
-      </div>
-    </form>
-  )
+      </form>
+    )
+  }
 }
+
 export default connect(
   null,
   mapDispatchToProps
