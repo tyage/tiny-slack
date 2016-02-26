@@ -20,7 +20,7 @@ const ChannelList = ({ dispatch, channels, onChannelClick, currentChannel }) => 
           channel={ channel }
           onClick={ () => onChannelClick(channel) }
           isSelected={ channel === currentChannel }
-          key={ channel.id }
+          key={ channel._id }
         />
       )) }
     </div>

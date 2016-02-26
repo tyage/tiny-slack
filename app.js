@@ -4,11 +4,12 @@ import send from 'koa-send'
 import Router from 'koa-router'
 import parse from 'co-body'
 import json from 'koa-json'
+import monk from 'monk'
+import monkWrapper from 'co-monk'
 
-// TODO: save in storage
-const channels = []
-let nextMessageId = 0
-const messages = {}
+const db = process.env.MONGOLAB_URI ? monk(process.env.MONGOLAB_URI) : monk('localhost:27017/tinySlack');
+const channels = monkWrapper(db.get('channels'))
+const messages = monkWrapper(db.get('messages'))
 
 const apiRouter = Router({
   prefix: '/api'
@@ -17,12 +18,11 @@ apiRouter
   .post('/channels/new', function *() {
     const { name } = yield parse(this)
     const channel = {
-      id: name,
       name
     }
 
     // TODO: check if channel is unique
-    channels.push(channel)
+    yield channels.insert(channel)
 
     this.body = {
       channel
@@ -30,24 +30,20 @@ apiRouter
   })
   .get('/channels', function *() {
     this.body = {
-      channels
+      channels: yield channels.find({})
     }
   })
   .post('/messages/:channelId/new', function *() {
     const channelId = this.params.channelId
     const { username, text } = yield parse(this)
     const message = {
-      id: ++nextMessageId,
       channelId,
       username,
       text,
       createdAt: new Date()
     }
 
-    if (!messages[channelId]) {
-      messages[channelId] = []
-    }
-    messages[channelId].push(message)
+    yield messages.insert(message)
 
     this.body = {
       message
@@ -55,9 +51,10 @@ apiRouter
   })
   .get('/messages/:channelId', function *() {
     const channelId = this.params.channelId
+    const channelMessages = yield messages.find({ channelId })
 
     this.body = {
-      messages: messages[channelId] || []
+      messages: channelMessages
     }
   })
 
