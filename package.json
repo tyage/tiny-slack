@@ -1,6 +1,6 @@
 {
   "name": "tiny-slack",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tiny Slack",
   "main": "index.js",
   "scripts": {
