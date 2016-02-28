@@ -19,9 +19,7 @@ const fetchChannels = () => {
   return new Promise((resolve, reject) => {
     socket.emit('get channels')
 
-    socket.on('channels', (response) => {
-      socket.off('channels')
-
+    socket.once('channels', (response) => {
       resolve(response)
     })
   })
