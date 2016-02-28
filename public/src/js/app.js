@@ -1,5 +1,5 @@
-require("babel-core/register");
-require("babel-polyfill");
+import 'babel-core/register'
+import 'babel-polyfill'
 
 import React from 'react'
 import { render } from 'react-dom'

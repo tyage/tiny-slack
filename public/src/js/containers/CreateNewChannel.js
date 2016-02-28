@@ -35,7 +35,7 @@ class CreateNewChannel extends Component {
           <label className="form-label" htmlFor="channel-name">Channel name</label>
           <div className="form-input">
             <input id="channel-name" type="text" placeholder="Channel name"
-              ref="channelName" />
+              ref="channelName" required />
           </div>
         </div>
         <div className="form-group">
