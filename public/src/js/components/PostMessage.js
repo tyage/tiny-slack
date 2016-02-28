@@ -1,6 +1,7 @@
 import React from 'react'
 
 const PostMessage = ({ onSubmit }) => {
+  const defaultUsername = localStorage.getItem('defaultUsername')
   let messageText, username
 
   return (
@@ -11,7 +12,8 @@ const PostMessage = ({ onSubmit }) => {
     } } className="post-message-form">
       <div className="username-form form-input">
         <input type="text" placeholder="Username"
-          ref={ node => username = node } />
+          ref={ node => username = node }
+          defaultValue={ defaultUsername } />
       </div>
       <div className="message-form form-input">
         <input type="text" placeholder="Input message"

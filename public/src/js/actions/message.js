@@ -19,6 +19,8 @@ const fetchMessages = (channel) => {
 }
 
 export const postMessage = (channel, username, text) => {
+  localStorage.setItem('defaultUsername', username)
+
   return (dispatch) => {
     return createMessage(channel, username, text)
       .then(({ message }) => {
