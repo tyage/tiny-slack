@@ -26,7 +26,6 @@ class CreateNewChannel extends Component {
           error: error
         })
       })
-    this.refs.channelName.value = ''
   }
   render() {
     return (

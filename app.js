@@ -25,15 +25,24 @@ apiRouter
 
     // check if channel is unique
     const existChannel = yield channels.find({ name })
-    if (existChannel.length === 0) {
-      yield channels.insert(channel)
-      this.body = {
-        channel
-      }
-    } else {
+    if (existChannel.length > 0) {
       this.body = {
         error: `Channel ${name} is already exists`
       }
+      return;
+    }
+
+    // validate channel name
+    if (!(/^[0-9a-zA-Z_]+$/.test(name))) {
+      this.body = {
+        error: `${name} is invalid channel name`
+      }
+      return;
+    }
+
+    yield channels.insert(channel)
+    this.body = {
+      channel
     }
   })
   .get('/channels', function *() {
