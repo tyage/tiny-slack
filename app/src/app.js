@@ -1,3 +1,6 @@
+require("babel-core/register");
+require("babel-polyfill");
+
 import koa from 'koa'
 import serve from 'koa-static'
 import send from 'koa-send'
@@ -7,7 +10,7 @@ import json from 'koa-json'
 import monk from 'monk'
 import monkWrapper from 'co-monk'
 
-import config from './config'
+import config from '../../config.json'
 
 const db = monk(config.mongoDb.uri)
 const channels = monkWrapper(db.get('channels'))
@@ -17,6 +20,11 @@ const apiRouter = Router({
   prefix: '/api'
 })
 apiRouter
+  .get('/team', function *() {
+    this.body = {
+      name: config.team.name
+    }
+  })
   .post('/channels/new', function *() {
     const { name } = yield parse(this)
     const channel = {

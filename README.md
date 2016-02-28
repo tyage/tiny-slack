@@ -7,5 +7,5 @@ Just for experiment
 ```
 $ cp config.sample.js config.js
 $ npm install
-$ npm start
+$ npm run build && npm start
 ```
