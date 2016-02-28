@@ -7,7 +7,9 @@ import json from 'koa-json'
 import monk from 'monk'
 import monkWrapper from 'co-monk'
 
-const db = process.env.MONGOLAB_URI ? monk(process.env.MONGOLAB_URI) : monk('localhost:27017/tinySlack');
+import config from './config'
+
+const db = monk(config.mongoDb.uri)
 const channels = monkWrapper(db.get('channels'))
 const messages = monkWrapper(db.get('messages'))
 
@@ -76,7 +78,7 @@ publicRouter
   })
 
 const app = koa()
-app.listen(3000)
+app.listen(config.server.listenPort)
 app.use(json())
 app.use(apiRouter.routes())
 app.use(publicRouter.routes())
