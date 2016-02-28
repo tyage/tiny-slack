@@ -10,22 +10,22 @@ export default (app) => {
     })
   })
 
-  io.route('new channel', function *(next, { name }) {
+  io.route('create channel', function *(next, { name }) {
     // check if channel is unique
     const existChannel = yield channels.find({ name })
     if (existChannel.length > 0) {
-      this.emit('new channel result', {
+      this.emit('create channel result', {
         result: 'fail',
-        error: `Channel ${name} is already exists`
+        message: `Channel ${name} is already exists`
       })
       return;
     }
 
     // validate channel name
     if (!(/^[0-9a-zA-Z_]+$/.test(name))) {
-      this.emit('new channel result', {
+      this.emit('create channel result', {
         result: 'fail',
-        error: `${name} is invalid channel name`
+        message: `${name} is invalid channel name`
       })
       return;
     }
@@ -33,13 +33,15 @@ export default (app) => {
     const channel = {
       name
     }
+
     yield channels.insert(channel)
 
-    this.broadcast.emit('new channel', {
+    this.emit('create channel result', {
+      result: 'success',
       channel
     })
-    this.emit('new channel result', {
-      result: 'success'
+    this.broadcast.emit('new channel', {
+      channel
     })
   })
 
@@ -49,7 +51,7 @@ export default (app) => {
     })
   })
 
-  io.route('new message', function *(next, { channelId, username, text }) {
+  io.route('create message', function *(next, { channelId, username, text }) {
     const message = {
       channelId,
       username,
@@ -59,6 +61,10 @@ export default (app) => {
 
     yield messages.insert(message)
 
+    this.emit('create message result', {
+      result: 'success',
+      message
+    })
     this.broadcast.emit('new message', {
       message
     })

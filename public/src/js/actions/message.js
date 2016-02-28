@@ -1,35 +1,59 @@
-import fetch from 'isomorphic-fetch'
+import socket from '../lib/socket'
 
 const createMessage = (channel, username, text) => {
-  return fetch(`/api/messages/${channel.name}/new`, {
-      method: 'post',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        username,
-        text
-      })
+  return new Promise((resolve, reject) => {
+    socket.emit('create message', {
+      channelId: channel.name,
+      username,
+      text
     })
-    .then(res => res.json())
+
+    socket.once('create message result', (response) => {
+      if (response.result === 'success') {
+        resolve(response)
+      } else {
+        reject(response.message)
+      }
+    })
+  })
 }
 const fetchMessages = (channel) => {
-  return fetch(`/api/messages/${channel.name}`)
-    .then(res => res.json())
+  return new Promise((resolve, reject) => {
+    socket.emit('get messages', { channelId: channel.name })
+
+    socket.once('messages', (response) => {
+      resolve(response)
+    })
+  })
 }
 
 export const postMessage = (channel, username, text) => {
   localStorage.setItem('defaultUsername', username)
 
   return (dispatch) => {
-    return createMessage(channel, username, text)
+    createMessage(channel, username, text)
       .then(({ message }) => {
-        return dispatch({
+        dispatch({
           type: 'ADD_MESSAGE',
           message
         })
       })
   }
+}
+export const listenNewMessage = (channel) => {
+  return (dispatch) => {
+    socket.on('new message', ({ message }) => {
+      if (message.channelId === channel.name) {
+        dispatch({
+          type: 'ADD_MESSAGE',
+          message
+        })
+      }
+    })
+  }
+}
+export const unlistenNewMessage = () => {
+  socket.off('new message')
 }
 export const updateMessages = (channel) => {
   return (dispatch) => {

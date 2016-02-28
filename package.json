@@ -13,7 +13,6 @@
   "license": "MIT",
   "dependencies": {
     "co-monk": "^1.0.0",
-    "isomorphic-fetch": "^2.2.1",
     "koa": "^1.1.2",
     "koa-router": "^5.4.0",
     "koa-send": "^3.1.0",

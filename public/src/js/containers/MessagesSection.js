@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { postMessage, updateMessages } from '../actions/message'
+import { postMessage, updateMessages, listenNewMessage, unlistenNewMessage } from '../actions/message'
 import MessageList from '../components/MessageList'
 import PostMessage from '../components/PostMessage'
 
@@ -12,12 +12,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onPostMessage: (channel, username, text) => {
-      dispatch(postMessage(channel, username, text))
+    doPostMessage: (channel, username, text) => {
+      if (channel) {
+        dispatch(postMessage(channel, username, text))
+      }
     },
     doUpdateMessages: (channel) => {
       if (channel) {
         dispatch(updateMessages(channel))
+      }
+    },
+    doListenNewMessage: (channel) => {
+      if (channel) {
+        dispatch(listenNewMessage(channel))
       }
     }
   }
@@ -28,29 +35,23 @@ class MessagesSection extends Component {
     super(props)
   }
   componentDidMount() {
-    const { currentChannel, doUpdateMessages } = this.props
+    const { currentChannel, doUpdateMessages, doListenNewMessage } = this.props
     doUpdateMessages(currentChannel)
-
-    // TODO: use websocket instead
-    const timer = setInterval(() => {
-      const { currentChannel, doUpdateMessages } = this.props
-      doUpdateMessages(currentChannel)
-    }, 1000)
-    this.setState({
-      timer
-    })
+    doListenNewMessage(currentChannel)
   }
   componentWillUnmount() {
-    clearInterval(this.state.timer)
+    unlistenNewMessage()
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentChannel !== this.props.currentChannel) {
-      const { currentChannel, doUpdateMessages } = nextProps
+      const { currentChannel, doUpdateMessages, doListenNewMessage } = nextProps
       doUpdateMessages(currentChannel)
+      unlistenNewMessage()
+      doListenNewMessage(currentChannel)
     }
   }
   render() {
-    const { messages, currentChannel, onPostMessage } = this.props
+    const { messages, currentChannel, doPostMessage } = this.props
 
     if (currentChannel) {
       return (
@@ -60,7 +61,7 @@ class MessagesSection extends Component {
           </div>
           <MessageList messages={ messages } />
           <PostMessage onSubmit={ (username, text) => {
-            onPostMessage(currentChannel, username, text)
+            doPostMessage(currentChannel, username, text)
           } } />
         </div>
       )
@@ -72,8 +73,9 @@ class MessagesSection extends Component {
 
 MessagesSection.propTypes = {
   messages: PropTypes.array.isRequired,
-  onPostMessage: PropTypes.func.isRequired,
-  doUpdateMessages: PropTypes.func.isRequired
+  doPostMessage: PropTypes.func.isRequired,
+  doUpdateMessages: PropTypes.func.isRequired,
+  doListenNewMessage: PropTypes.func.isRequired
 }
 
 export default connect(

@@ -1,38 +1,59 @@
 import { push } from 'react-router-redux'
-import fetch from 'isomorphic-fetch'
+
+import socket from '../lib/socket'
 
 const createChannel = (name) => {
-  return fetch('/api/channels/new', {
-      method: 'post',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        name
-      })
+  return new Promise((resolve, reject) => {
+    socket.emit('create channel', { name })
+
+    socket.once('create channel result', (response) => {
+      if (response.result === 'success') {
+        resolve(response)
+      } else {
+        reject(response.message)
+      }
     })
-    .then(res => res.json())
+  })
 }
 const fetchChannels = () => {
-  return fetch('/api/channels')
-    .then(res => res.json())
+  return new Promise((resolve, reject) => {
+    socket.emit('get channels')
+
+    socket.on('channels', (response) => {
+      socket.off('channels')
+
+      resolve(response)
+    })
+  })
 }
 
 export const addAndMoveToChannel = (name) => {
   return (dispatch) => {
     return createChannel(name)
-      .then((res) => {
-        if (res.error) {
-          return Promise.reject(res.error)
-        } else {
-          dispatch(updateChannels())
-          return dispatch(push(`/${res.channel.name}`))
-        }
+      .then(({ channel }) => {
+        dispatch({
+          type: 'ADD_CHANNEL',
+          channel
+        })
+        return dispatch(push(`/${name}`))
       })
   }
 }
 export const updateCurrentChannel = (channel) => {
   return push(`/${channel.name}`)
+}
+export const listenNewChannel = () => {
+  return (dispatch) => {
+    socket.on('new channel', ({ channel }) => {
+      dispatch({
+        type: 'ADD_CHANNEL',
+        channel
+      })
+    })
+  }
+}
+export const unlistenNewChannel = () => {
+  socket.off('new channel')
 }
 export const updateChannels = () => {
   return (dispatch) => {
