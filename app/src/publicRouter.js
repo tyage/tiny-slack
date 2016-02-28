@@ -12,4 +12,6 @@ const publicRouter = Router()
     yield send(this, './views/index.html')
   })
 
-export default publicRouter
+export default (app) => {
+  app.use(publicRouter.routes())
+}

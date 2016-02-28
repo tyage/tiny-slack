@@ -1,55 +1,55 @@
-import Router from 'koa-router'
-import parse from 'co-body'
-
 import config from '../../config.json'
 import { channels, messages } from './db'
 
-const apiRouter = Router({
-  prefix: '/api'
-})
-apiRouter
-  .get('/team', function *() {
-    this.body = {
-      name: config.team.name
-    }
-  })
-  .post('/channels/new', function *() {
-    const { name } = yield parse(this)
-    const channel = {
-      name
-    }
+export default (app) => {
+  const io = app.io
 
+  io.route('get team', function *() {
+    this.emit('team', {
+      name: config.team.name
+    })
+  })
+
+  io.route('new channel', function *(next, { name }) {
     // check if channel is unique
     const existChannel = yield channels.find({ name })
     if (existChannel.length > 0) {
-      this.body = {
+      this.emit('new channel result', {
+        result: 'fail',
         error: `Channel ${name} is already exists`
-      }
+      })
       return;
     }
 
     // validate channel name
     if (!(/^[0-9a-zA-Z_]+$/.test(name))) {
-      this.body = {
+      this.emit('new channel result', {
+        result: 'fail',
         error: `${name} is invalid channel name`
-      }
+      })
       return;
     }
 
+    const channel = {
+      name
+    }
     yield channels.insert(channel)
 
-    this.body = {
+    this.broadcast.emit('new channel', {
       channel
-    }
+    })
+    this.emit('new channel result', {
+      result: 'success'
+    })
   })
-  .get('/channels', function *() {
-    this.body = {
+
+  io.route('get channels', function *() {
+    this.emit('channels', {
       channels: yield channels.find({})
-    }
+    })
   })
-  .post('/messages/:channelId/new', function *() {
-    const channelId = this.params.channelId
-    const { username, text } = yield parse(this)
+
+  io.route('new message', function *(next, { channelId, username, text }) {
     const message = {
       channelId,
       username,
@@ -59,17 +59,14 @@ apiRouter
 
     yield messages.insert(message)
 
-    this.body = {
+    this.broadcast.emit('new message', {
       message
-    }
-  })
-  .get('/messages/:channelId', function *() {
-    const channelId = this.params.channelId
-    const channelMessages = yield messages.find({ channelId })
-
-    this.body = {
-      messages: channelMessages
-    }
+    })
   })
 
-export default apiRouter
+  io.route('get messages', function *(next, { channelId }) {
+    this.emit('messages', {
+      messages: yield messages.find({ channelId })
+    })
+  })
+}
