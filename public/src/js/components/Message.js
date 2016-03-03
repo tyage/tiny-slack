@@ -7,7 +7,7 @@ const Message = ({ message }) => {
         <p className="message-username">{ message.username }</p>
         <p className="message-date">{ message.createdAt.toLocaleString() }</p>
       </div>
-      <div className="message-text">{ message.text }</div>
+      <pre className="message-text">{ message.text }</pre>
     </div>
   )
 }
