@@ -10,18 +10,18 @@ class MessageList extends Component {
   componentDidMount() {
     const messageList = this.refs.messageList
     messageList.addEventListener('scroll', (e) => {
-      const rawHeight = getComputedStyle(messageList).height || ''
-      const heightMatch = rawHeight.match(/(\d+)px/)
-      const height = heightMatch ? +heightMatch[1] : 0
-      this.autoScroll = messageList.scrollHeight <= messageList.scrollTop + height
+      this.onScroll()
     })
-  }
-  componentWillUnmount() {
-    const messageList = this.refs.messageList
-    messageList.removeEventListener('scroll')
   }
   componentDidUpdate() {
     this.scrollMessages()
+  }
+  onScroll() {
+    const messageList = this.refs.messageList
+    const rawHeight = getComputedStyle(messageList).height || ''
+    const heightMatch = rawHeight.match(/(\d+)px/)
+    const height = heightMatch ? +heightMatch[1] : 0
+    this.autoScroll = messageList.scrollHeight <= messageList.scrollTop + height
   }
   scrollMessages() {
     if (this.autoScroll) {
