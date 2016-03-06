@@ -17,6 +17,7 @@ class MessageList extends Component {
     })
   }
   componentWillUnmount() {
+    const messageList = this.refs.messageList
     messageList.removeEventListener('scroll')
   }
   componentDidUpdate() {
