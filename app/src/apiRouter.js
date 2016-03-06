@@ -22,7 +22,7 @@ export default (app) => {
     }
 
     // validate channel name
-    if (!(/^[0-9a-zA-Z_]+$/.test(name))) {
+    if (!(/^[0-9a-zA-Z_\-]+$/.test(name))) {
       this.emit('create channel result', {
         result: 'fail',
         message: `${name} is invalid channel name`
