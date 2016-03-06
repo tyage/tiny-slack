@@ -53,9 +53,9 @@ export default (app) => {
 
   io.route('create message', function *(next, { channelId, username, text }) {
     const message = {
-      channelId,
-      username,
-      text,
+      channelId: channelId + ''
+      username: username + '',
+      text: text + '',
       createdAt: new Date()
     }
 
